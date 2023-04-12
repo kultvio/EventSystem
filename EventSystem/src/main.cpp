@@ -4,12 +4,10 @@
 int main()
 {
 	CoreNative::Window& window = CoreNative::Window::getInstanse();
-	while (true)
+	while (!glfwWindowShouldClose(window.getGLFWwindow()))
 	{
 		glfwPollEvents();
 		glfwSwapBuffers(window.getGLFWwindow()); // отвечает за то, как рендерится картинка (я пока не особо понял)
-
-
 
 	}
 	return 0;

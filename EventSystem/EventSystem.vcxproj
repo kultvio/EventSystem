@@ -24,6 +24,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\event.h" />
+    <ClInclude Include="src\windowEvent.h" />
     <ClInclude Include="src\keyEvent.h" />
     <ClInclude Include="src\mouseEvent.h" />
     <ClInclude Include="src\window.h" />

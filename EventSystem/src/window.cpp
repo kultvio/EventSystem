@@ -1,10 +1,10 @@
 #include "window.h"
 #include "mouseEvent.h"
 #include "keyEvent.h"
+#include "windowEvent.h"
 #include <iostream>
 namespace CoreNative 
 {
-	std::string str = "";
 	Window::Window(const std::string& name, int width, int height)
 	{
 		init(name, width, height);
@@ -44,6 +44,7 @@ namespace CoreNative
 		glfwSetScrollCallback(window, mouseScrolledCallback);
 		glfwSetMouseButtonCallback(window, mouseButtonCallback);
 		glfwSetKeyCallback(window, keyCallback);
+		glfwSetWindowCloseCallback(window, windowCloseCallback);
 	}
 	void Window::mouseMoveCallback(GLFWwindow* window, double x, double y)
 	{
@@ -70,21 +71,16 @@ namespace CoreNative
 		auto& handle = *(Window*)glfwGetWindowUserPointer(window);
 		if (action == GLFW_PRESS) { KeyPressedEvent e(key); handle.fnCallback(e); }
 		else {
-			if (key == GLFW_KEY_BACKSPACE) {
-				if (str.size() != 0)
-				{
-					str.pop_back();
-					std::cout << str << std::endl;
-				}
-			}
-			else {
 				KeyReleasedEvent e(key);
 				handle.fnCallback(e);
-				str += char(key);
-				std::cout << str << std::endl;
-			}
-
 		}
+	}
+
+	void Window::windowCloseCallback(GLFWwindow* window)
+	{
+		auto& handle = *(Window*)glfwGetWindowUserPointer(window);
+		WindowClosedEvent e;
+		handle.fnCallback(e);
 	}
 
 

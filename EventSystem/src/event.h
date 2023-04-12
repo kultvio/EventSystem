@@ -17,7 +17,6 @@ namespace CoreNative
 			KEY_REPEATED_EVENT,
 			WINDOW_RESIZED_EVENT,
 			WINDOW_CLOSED_EVENT,
-
 		};
 	protected:
 		EventType type;
