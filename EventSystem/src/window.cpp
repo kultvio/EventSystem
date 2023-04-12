@@ -1,8 +1,10 @@
 #include "window.h"
 #include "mouseEvent.h"
+#include "keyEvent.h"
 #include <iostream>
 namespace CoreNative 
 {
+	std::string str = "";
 	Window::Window(const std::string& name, int width, int height)
 	{
 		init(name, width, height);
@@ -40,6 +42,8 @@ namespace CoreNative
 		glfwSetWindowUserPointer(window, this);
 		glfwSetCursorPosCallback(window, mouseMoveCallback);
 		glfwSetScrollCallback(window, mouseScrolledCallback);
+		glfwSetMouseButtonCallback(window, mouseButtonCallback);
+		glfwSetKeyCallback(window, keyCallback);
 	}
 	void Window::mouseMoveCallback(GLFWwindow* window, double x, double y)
 	{
@@ -53,6 +57,37 @@ namespace CoreNative
 		MouseScrolledEvent e(y);
 		handle.fnCallback(e);
 	}
+	void Window::mouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
+	{
+		auto& handle = *(Window*)glfwGetWindowUserPointer(window);
+		
+		if (action == GLFW_PRESS) { MouseButtonPressedEvent e(button); handle.fnCallback(e); }
+		else { MouseBttunReleasedEvent e(button); handle.fnCallback(e);  }
+
+	}
+	void Window::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
+	{
+		auto& handle = *(Window*)glfwGetWindowUserPointer(window);
+		if (action == GLFW_PRESS) { KeyPressedEvent e(key); handle.fnCallback(e); }
+		else {
+			if (key == GLFW_KEY_BACKSPACE) {
+				if (str.size() != 0)
+				{
+					str.pop_back();
+					std::cout << str << std::endl;
+				}
+			}
+			else {
+				KeyReleasedEvent e(key);
+				handle.fnCallback(e);
+				str += char(key);
+				std::cout << str << std::endl;
+			}
+
+		}
+	}
+
+
 	Window::~Window()
 	{
 		glfwWindowShouldClose(window);

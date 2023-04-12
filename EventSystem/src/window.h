@@ -34,5 +34,7 @@ namespace CoreNative
 	public:
 		static void mouseMoveCallback(GLFWwindow* window, double x, double y);
 		static void mouseScrolledCallback(GLFWwindow* window, double x, double y);
+		static void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
+		static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 	};
 }
