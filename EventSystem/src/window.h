@@ -23,7 +23,7 @@ namespace CoreNative
 
 	public:
 		static Window& getInstanse() {
-			static Window instanse("Window", 1280,720);
+			static Window instanse("Window", 1280, 720);
 			return instanse;
 		}
 
@@ -37,5 +37,6 @@ namespace CoreNative
 		static void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
 		static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 		static void windowCloseCallback(GLFWwindow* window);
+		static void windowSizeCallback(GLFWwindow* window, int width, int height);
 	};
 }

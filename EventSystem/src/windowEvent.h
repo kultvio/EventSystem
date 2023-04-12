@@ -14,4 +14,21 @@ namespace CoreNative
 			return name;
 		}
 	};
+	class WindowResizedEvent : public Event
+	{
+	private:
+		int width;
+		int height;
+	public:
+		WindowResizedEvent(int width, int height)
+			:
+			Event("Window Resized Event", EventType::WINDOW_RESIZED_EVENT),
+			width(width),
+			height(height) {}
+	public:
+		std::string format() const override
+		{
+			return name + ": width: " + std::to_string(width) + " heigth: " + std::to_string(height);
+		}
+	};
 }

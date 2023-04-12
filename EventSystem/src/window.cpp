@@ -23,6 +23,7 @@ namespace CoreNative
 		this->name = name;
 		this->width = width;
 		this->height = height;
+
 		if (!glfwInit())
 		{
 			__asm {
@@ -45,6 +46,7 @@ namespace CoreNative
 		glfwSetMouseButtonCallback(window, mouseButtonCallback);
 		glfwSetKeyCallback(window, keyCallback);
 		glfwSetWindowCloseCallback(window, windowCloseCallback);
+		glfwSetWindowSizeCallback(window, windowSizeCallback);
 	}
 	void Window::mouseMoveCallback(GLFWwindow* window, double x, double y)
 	{
@@ -82,7 +84,14 @@ namespace CoreNative
 		WindowClosedEvent e;
 		handle.fnCallback(e);
 	}
-
+	void Window::windowSizeCallback(GLFWwindow* window, int width, int height)
+	{
+		auto& handle = *(Window*)glfwGetWindowUserPointer(window);
+		WindowResizedEvent e(width, height);
+		handle.width = width;
+		handle.height = height;
+		handle.fnCallback(e);
+	}
 
 	Window::~Window()
 	{
